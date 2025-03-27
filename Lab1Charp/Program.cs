@@ -57,24 +57,18 @@ class Program
     // Функція для перевірки положення точки
     static string CheckPoint(double x, double y)
     {
-        double radius = 12;
-        bool onCircle = Math.Abs(x * x + y * y - radius * radius) < 1e-6;
-        bool onLine = Math.Abs(y - x) < 1e-6;
-        bool insideCircle = x * x + y * y <= radius * radius;
-        bool belowLine = y <= x;
+        double radius = 12; // Радіус кола
+        double distanceSquared = x * x + y * y; // Відстань від точки до початку координат у квадраті
 
-        if ((onCircle && belowLine) || onLine)
-        {
-            return "На межі";
-        }
-        else if (insideCircle && belowLine)
-        {
-            return "Так";
-        }
-        else
-        {
-            return "Ні";
-        }
+        bool onCircle = Math.Abs(distanceSquared - radius * radius) < 1e-6; // Перевірка чи точка на колі
+        bool onLine = Math.Abs(y - x) < 1e-6; // Перевірка чи точка на прямій y = x
+        bool insideCircle = distanceSquared <= radius * radius; // Перевірка чи точка в межах кола
+        bool belowLine = y <= x; // Перевірка чи точка під прямою y = x
+
+        if (onCircle && belowLine){return "On Circle";}
+        else if (onLine && insideCircle){return "On Line";}
+        else if (insideCircle && belowLine){return "Inside";}
+        else{return "Outside";}
     }
 
     // Функція для обчислення виразу a + (a + b - 1) / (a^2 + 1) - ab
